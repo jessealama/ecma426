@@ -269,10 +269,33 @@
       <p>URL referencing the location of a source map from the generated code.</p>
     </dd>
 
+    <dt><dfn id="sec-terms-and-definitions-line-terminator">line terminator</dfn></dt>
+    <dd>
+      <p>any of the following non-overlapping sequences in source text: U+000D U+000A (CARRIAGE RETURN followed by LINE FEED), U+000D not immediately followed by U+000A, or U+000A not immediately preceded by U+000D. Each sequence is counted as one line terminator.</p>
+      <emu-note>This definition provides a source map coordinate convention independent of the lexical rules of the source language and of visual layout. U+2028 (LINE SEPARATOR), U+2029 (PARAGRAPH SEPARATOR), and U+000C (FORM FEED) do not advance the source map line number; each contributes one UTF-16 code unit to the column offset. In contrast, the ECMA-262 |LineTerminator| production includes U+2028 and U+2029, and CSS newline normalization treats U+000C as a newline. The algorithm for extracting a <emu-xref href="#sec-JavaScriptExtractSourceMapURL-without-parsing">source map URL from JavaScript without parsing</emu-xref> uses the ECMA-262 |LineTerminatorSequence| production to identify comment boundaries.</emu-note>
+    </dd>
+
+    <dt><dfn id="sec-terms-and-definitions-line">line</dfn></dt>
+    <dd>
+      <p>zero-based index of a position in generated JavaScript or CSS, or in a textual original source, equal to the number of complete line terminators preceding that position. Generated WebAssembly binary content is treated as a single line with index 0.</p>
+      <emu-note>The convention for textual original sources applies regardless of their language or the format of the generated code, including when the generated code is WebAssembly.</emu-note>
+    </dd>
+
     <dt><dfn id="sec-terms-and-definitions-colun">column</dfn></dt>
     <dd>
-      <p>zero-based indexed offset within a line of the generated code, computed as UTF-16 code units for JavaScript and CSS source maps, and as byte indices in the binary content (represented as a single line) for WebAssembly source maps.</p>
+      <p>zero-based offset of a position within its line. For generated JavaScript or CSS and for textual original sources, it is the number of UTF-16 code units from the start of the text or the end of the most recent complete preceding line terminator. For generated WebAssembly binary content, it is the byte offset from the start of the binary content.</p>
       <emu-note>That means that “A” (`LATIN CAPITAL LETTER A`) measures as 1 code unit, and “🔥” (`FIRE`) measures as 2 code units. Source maps for other content types may diverge from this.</emu-note>
+      <emu-note>Generators whose parser locations use different line boundaries or column units need to translate those locations into source map coordinates. Consumers likewise need to translate between source map coordinates and any different coordinate convention used by an editor or runtime. These coordinates refer to the source text before language-specific newline normalization and do not depend on tab width or visual wrapping.</emu-note>
+      <emu-note example>
+        <p>In the following examples, escape sequences denote actual code points in the source text, and each pair gives a zero-based (line, column) position:</p>
+        <ul>
+          <li>In each of `a\nb`, `a\rb`, and `a\r\nb`, the position of `b` is (1, 0).</li>
+          <li>In `a\r\n\nb`, the position of `b` is (2, 0).</li>
+          <li>In each of `a\u2028b`, `a\u2029b`, and `a\u000Cb`, the position of `b` is (0, 2).</li>
+          <li>In `🔥b`, the position of `b` is (0, 2).</li>
+          <li>In `a\r\n`, the position at the end of the text is (1, 0). In empty text, it is (0, 0).</li>
+        </ul>
+      </emu-note>
     </dd>
   </dl>
 </emu-clause>
