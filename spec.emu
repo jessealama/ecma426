@@ -272,7 +272,7 @@
     <dt><dfn id="sec-terms-and-definitions-line-terminator">line terminator</dfn></dt>
     <dd>
       <p>any of the following non-overlapping sequences in source text: U+000D U+000A (CARRIAGE RETURN followed by LINE FEED), U+000D not immediately followed by U+000A, or U+000A not immediately preceded by U+000D. Each sequence is counted as one line terminator.</p>
-      <emu-note>This definition provides a source map coordinate convention independent of the lexical rules of the source language and of visual layout. U+2028 (LINE SEPARATOR), U+2029 (PARAGRAPH SEPARATOR), and U+000C (FORM FEED) do not advance the source map line number; each contributes one UTF-16 code unit to the column offset. In contrast, the ECMA-262 |LineTerminator| production includes U+2028 and U+2029, and CSS newline normalization treats U+000C as a newline. The algorithm for extracting a <emu-xref href="#sec-JavaScriptExtractSourceMapURL-without-parsing">source map URL from JavaScript without parsing</emu-xref> uses the ECMA-262 |LineTerminatorSequence| production to identify comment boundaries.</emu-note>
+      <emu-note>U+2028 (LINE SEPARATOR), U+2029 (PARAGRAPH SEPARATOR), and U+000C (FORM FEED) are not line terminators, although the ECMA-262 |LineTerminator| production includes U+2028 and U+2029 and CSS newline normalization treats U+000C as a newline.</emu-note>
     </dd>
 
     <dt><dfn id="sec-terms-and-definitions-line">line</dfn></dt>
