@@ -292,7 +292,6 @@
           <li>In each of `a\nb`, `a\rb`, and `a\r\nb`, the position of `b` is (1, 0).</li>
           <li>In `a\r\n\nb`, the position of `b` is (2, 0).</li>
           <li>In each of `a\u2028b`, `a\u2029b`, and `a\u000Cb`, the position of `b` is (0, 2).</li>
-          <li>In `🔥b`, the position of `b` is (0, 2).</li>
           <li>In `a\r\n`, the position at the end of the text is (1, 0). In empty text, it is (0, 0).</li>
         </ul>
       </emu-note>
